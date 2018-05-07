@@ -9,11 +9,15 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao;
+    private UserDao userDao = new UserDaoImpl();
 
     @Override
-    public List<User> getAll() throws SQLException {
-        userDao = new UserDaoImpl();
+    public List<User> getAll() {
         return userDao.getAll();
+    }
+
+    @Override
+    public void add(User user) {
+        userDao.add(user);
     }
 }
