@@ -16,18 +16,20 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public List<User> getAll() throws SQLException {
-        User user = new User();
+
         List<User> users = new ArrayList<>();
         Connection connection = DriverManager.getConnection(dbUrl, username, password);
         Statement statement = connection.createStatement();
         ResultSet resultSet = statement.executeQuery("select id, first_name, last_name, salary from users");
         while(resultSet.next()) {
+            User user = new User();
             user.setId(resultSet.getInt("id"));
             user.setFirstName(resultSet.getString("first_name"));
             user.setLastName(resultSet.getString("last_name"));
             user.setSalary(resultSet.getDouble("salary"));
             users.add(user);
         }
+
         return users;
     }
 

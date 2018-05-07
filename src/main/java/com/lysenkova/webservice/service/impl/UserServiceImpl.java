@@ -1,6 +1,7 @@
 package com.lysenkova.webservice.service.impl;
 
 import com.lysenkova.webservice.dao.UserDao;
+import com.lysenkova.webservice.dao.impl.UserDaoImpl;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;
 
@@ -12,6 +13,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getAll() throws SQLException {
+        userDao = new UserDaoImpl();
         return userDao.getAll();
     }
 }
