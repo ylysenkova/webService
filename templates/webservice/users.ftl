@@ -19,11 +19,13 @@
     </style>
 </head>
 <body>
-<form action="/users.jsp" method="GET">
-    <p>
+    <form action="/user/add" method="GET">
+        <p>
         <button type="submit">Add</button>
-        <button type="submit">Edit</button>
-        <button type="submit">Remove</button>
+        </p>
+    </form>
+    <button type="submit">Edit</button>
+    <button type="submit">Remove</button>
     </p>
 
 </form>
@@ -47,15 +49,5 @@
     </#list>
     </tr>
 </table>
-<p>Message: ${message}</p>
-
-<p>Method: ${method}</p>
-
-<p>URL: ${URL}</p>
-
-
-<p>SessionId: ${sessionId}</p>
-
-<p>Parameters: ${parameters}</p>
 </body>
 </html>

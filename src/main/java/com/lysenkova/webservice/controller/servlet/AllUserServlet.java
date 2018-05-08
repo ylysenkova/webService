@@ -21,30 +21,23 @@ public class AllUserServlet extends HttpServlet {
     private UserService userService = new UserServiceImpl();
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Map<String, Object> usersPageVariables = createPageVariablesMap(request);
-        usersPageVariables.put("message", "");
+    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Map<String, Object> userPageVariables = createPageVariablesMap(request);
+        List<User> users = userService.getAll();
+        userPageVariables.put("users", users);
 
-
-
-        response.getWriter().println(PageGenerator.instance().getPage("users.ftl", usersPageVariables));
+        response.getWriter().println(PageGenerator.instance().getPage("users.ftl", userPageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
-    private  Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
-        List<User> users = new ArrayList<>();
-        try {
-            users = userService.getAll();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> userPageVariables = new HashMap<>();
         userPageVariables.put("method", request.getMethod());
         userPageVariables.put("URL", request.getRequestURL().toString());
-//        userPageVariables.put("pathInfo", request.getPathInfo());
+//        pageVariables.put("pathInfo", request.getPathInfo());
         userPageVariables.put("sessionId", request.getSession().getId());
         userPageVariables.put("parameters", request.getParameterMap().toString());
-        userPageVariables.put("users", users);
+
         return userPageVariables;
     }
 }
