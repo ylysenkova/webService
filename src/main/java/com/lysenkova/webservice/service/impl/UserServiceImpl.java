@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(int id) {
+    public User getUserById(long id) {
         List<User> users = getAll();
         for (User user : users) {
             if(user.getId() == id){

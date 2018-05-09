@@ -11,6 +11,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     private final static String GET_ALL_SQL = "select id, first_name, last_name, salary from users";
     private final static String ADD_USER_SQL = "insert into users (first_name, last_name, salary) values(?, ?, ?)";
+    private final static String EDIT_USER_SQL = "update users set first_name = ?, last_name = ?, salary = ? where id = ?";
 
     private PropertiesParser properties = new PropertiesParser("/db/database.properties");
     private String dbUrl = properties.getStringProperty("database.url");
@@ -64,7 +65,17 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void edit(User user) {
-
+        try {
+            Connection connection = DriverManager.getConnection(dbUrl, username, password);
+            PreparedStatement preparedStatement = connection.prepareStatement(EDIT_USER_SQL);
+            preparedStatement.setString(1, user.getFirstName());
+            preparedStatement.setString(2, user.getLastName());
+            preparedStatement.setDouble(3, user.getSalary());
+            preparedStatement.setLong(4, user.getId());
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }

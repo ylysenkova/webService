@@ -20,7 +20,7 @@ public class EditUserServlet extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
         editUserVariablesMap.put("message", "");
-        int id = Integer.parseInt(request.getParameterMap().get("id")[0]);
+        long id = Long.parseLong(request.getParameterMap().get("id")[0]);
         User user = userService.getUserById(id);
         editUserVariablesMap.put("users", user);
 
@@ -30,9 +30,9 @@ public class EditUserServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
-String message = request.getParameter("message");
-response.setContentType("text/html;charset=utf-8");
+        Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
+        String message = request.getParameter("message");
+        response.setContentType("text/html;charset=utf-8");
         if (message == null || message.isEmpty()) {
             response.setStatus(HttpServletResponse.SC_FORBIDDEN);
         } else {
@@ -58,8 +58,7 @@ response.setContentType("text/html;charset=utf-8");
 
     private User editUser(HttpServletRequest request) {
         Map<String, String[]> parameters = request.getParameterMap();
-        int id = Integer.parseInt(parameters.get("id")[0]);
-        User user = userService.getUserById(id);
+        User user = userService.getUserById(Long.parseLong(parameters.get("id")[0]));
         user.setFirstName(parameters.get("firstName")[0]);
         user.setLastName(parameters.get("lastName")[0]);
         user.setSalary(Double.parseDouble(parameters.get("salary")[0]));
