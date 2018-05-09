@@ -31,4 +31,9 @@ public class UserServiceImpl implements UserService {
         }
         throw new RuntimeException("User not found");
     }
+
+    @Override
+    public void edit(User user) {
+        userDao.edit(user);
+    }
 }

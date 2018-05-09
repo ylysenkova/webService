@@ -11,4 +11,6 @@ public interface UserService {
     void add(User user);
 
     User getUserById(int id);
+
+    void edit(User user);
 }
