@@ -23,6 +23,7 @@ public class AllUserServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> userPageVariables = createPageVariablesMap(request);
+        userPageVariables.put("message", "");
         List<User> users = userService.getAll();
         userPageVariables.put("users", users);
 

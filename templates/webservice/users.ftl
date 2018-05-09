@@ -6,27 +6,30 @@
     <style>
         table {
             width: 100%;
-            background: antiquewhite;
             color: black;
             border-collapse: collapse;
+
         }
 
         td, th {
             border: 1px solid black;
+        }
+
+        tr, th {
             background: antiquewhite;
             padding: 5px;
         }
     </style>
 </head>
 <body>
-    <form action="/user/add" method="GET">
-        <p>
+<form action="/user/add" method="GET">
+    <p>
         <button type="submit">Add</button>
-        </p>
-    </form>
-    <button type="submit">Edit</button>
-    <button type="submit">Remove</button>
     </p>
+</form>
+<button type="submit" onclick="edit()">Edit</button>
+<button type="submit">Remove</button>
+</p>
 
 </form>
 <table>
@@ -40,7 +43,7 @@
 <tr>
     <#list users as user>
 
-       <tr>
+       <tr id="${user.id}" onclick="store(this.id)">
            <td>${user.id}</td>
            <td>${user.firstName}</td>
            <td>${user.lastName}</td>
@@ -49,5 +52,22 @@
     </#list>
     </tr>
 </table>
+<script>
+    var rowId;
+
+    function store(id) {
+        if (rowId !== undefined) {
+            document.getElementById(rowId).style.backgroundColor = "";
+        }
+        rowId = id;
+        document.getElementById(rowId).style.backgroundColor = "#7fffd4";
+    }
+
+    function edit() {
+        if (rowId !== undefined) {
+            window.location.href = "/user/edit?id=" + rowId;
+        }
+    }
+</script>
 </body>
 </html>

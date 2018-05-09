@@ -20,4 +20,15 @@ public class UserServiceImpl implements UserService {
     public void add(User user) {
         userDao.add(user);
     }
+
+    @Override
+    public User getUserById(int id) {
+        List<User> users = getAll();
+        for (User user : users) {
+            if(user.getId() == id){
+                return user;
+            }
+        }
+        throw new RuntimeException("User not found");
+    }
 }
