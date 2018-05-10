@@ -13,13 +13,13 @@ public class ServletCache {
         servlets = new ArrayList<>();
     }
 
-    public Servlet getServler(String servletName) throws NoSuchObjectException {
+    public Servlet getServlet(String servletName) {
         for (Servlet servlet : servlets) {
             if (servlet.getName().equalsIgnoreCase(servletName)) {
                 return servlet;
             }
         }
-        throw new NoSuchObjectException("Servlet not found");
+        return null;
     }
 
     public void addServlet(Servlet newServlet) {

@@ -9,7 +9,7 @@ public class ServiceLocator {
     private static ServletCache servletCache = new ServletCache();
 
     public static Servlet getServlet(String servletName) throws NoSuchObjectException {
-        Servlet servlet = servletCache.getServler(servletName);
+        Servlet servlet = servletCache.getServlet(servletName);
         if (servlet == null) {
             InitialContext context = new InitialContext();
             servlet = (Servlet) context.lookup(servletName);
