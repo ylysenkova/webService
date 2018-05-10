@@ -1,4 +1,4 @@
-package com.lysenkova.webservice.controller.templater;
+package com.lysenkova.webservice.web.templater;
 
 
 import freemarker.template.Configuration;

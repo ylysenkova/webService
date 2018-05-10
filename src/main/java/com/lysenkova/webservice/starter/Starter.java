@@ -1,19 +1,17 @@
-package com.lysenkova.webservice.controller.starter;
+package com.lysenkova.webservice.starter;
 
-import com.lysenkova.webservice.controller.servlet.AddUserServlet;
-import com.lysenkova.webservice.controller.servlet.AllUserServlet;
-import com.lysenkova.webservice.controller.servlet.DeleteUserServlet;
-import com.lysenkova.webservice.controller.servlet.EditUserServlet;
+import com.lysenkova.webservice.web.servicelocator.ServiceLocator;
+import com.lysenkova.webservice.web.servlet.*;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 public class Starter {
     public static void main(String[] args) throws Exception {
-        AllUserServlet allUserServlet = new AllUserServlet();
-        AddUserServlet addUserServlet = new AddUserServlet();
-        EditUserServlet editUserServlet = new EditUserServlet();
-        DeleteUserServlet deleteUserServlet = new DeleteUserServlet();
+        Servlet addUserServlet = ServiceLocator.getServlet("AddUserServlet");
+        Servlet allUserServlet = ServiceLocator.getServlet("AllUserServlet");
+        Servlet editUserServlet = ServiceLocator.getServlet("EditUserServlet");
+        Servlet deleteUserServlet = ServiceLocator.getServlet("DeleteUserServlet");
 
         ServletContextHandler context = new ServletContextHandler(ServletContextHandler.SESSIONS);
         context.addServlet(new ServletHolder(allUserServlet), "/users");

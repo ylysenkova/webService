@@ -1,6 +1,6 @@
-package com.lysenkova.webservice.controller.servlet;
+package com.lysenkova.webservice.web.servlet;
 
-import com.lysenkova.webservice.controller.templater.PageGenerator;
+import com.lysenkova.webservice.web.templater.PageGenerator;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;
 import com.lysenkova.webservice.service.impl.UserServiceImpl;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class AddUserServlet extends HttpServlet {
+public class AddUserServlet extends HttpServlet implements Servlet {
     private UserService userService = new UserServiceImpl();
 
     @Override
@@ -23,9 +23,9 @@ public class AddUserServlet extends HttpServlet {
 
             response.getWriter().println(PageGenerator.instance().getPage("add.ftl", addPageVariables));
             response.setStatus(HttpServletResponse.SC_OK);
-        }catch(RuntimeException e) {
+        } catch (RuntimeException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        } catch (IOException e){
+        } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
 
@@ -33,20 +33,25 @@ public class AddUserServlet extends HttpServlet {
 
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) {
-    try{
-        Map<String, Object> addPageVariables = createAddPageVariablesMap(request);
+        try {
+            Map<String, Object> addPageVariables = createAddPageVariablesMap(request);
 
-        response.setContentType("text/html;charset=utf-8");
+            response.setContentType("text/html;charset=utf-8");
 
-        addUser(request);
-        List<User> users = userService.getAll();
-        addPageVariables.put("users", users);
-        response.getWriter().println(PageGenerator.instance().getPage("users.ftl", addPageVariables));
-    }catch(RuntimeException e) {
-        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-    } catch (IOException e){
-        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            addUser(request);
+            List<User> users = userService.getAll();
+            addPageVariables.put("users", users);
+            response.getWriter().println(PageGenerator.instance().getPage("users.ftl", addPageVariables));
+        } catch (RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (IOException e) {
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
+
+    @Override
+    public String getName() {
+        return AddUserServlet.class.getName();
     }
 
     private static Map<String, Object> createAddPageVariablesMap(HttpServletRequest request) {
@@ -66,4 +71,5 @@ public class AddUserServlet extends HttpServlet {
         user.setSalary(Double.parseDouble(parameters.get("salary")[0]));
         userService.add(user);
     }
+
 }

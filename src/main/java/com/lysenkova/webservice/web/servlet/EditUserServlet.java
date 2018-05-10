@@ -1,6 +1,6 @@
-package com.lysenkova.webservice.controller.servlet;
+package com.lysenkova.webservice.web.servlet;
 
-import com.lysenkova.webservice.controller.templater.PageGenerator;
+import com.lysenkova.webservice.web.templater.PageGenerator;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;
 import com.lysenkova.webservice.service.impl.UserServiceImpl;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EditUserServlet extends HttpServlet {
+public class EditUserServlet extends HttpServlet implements Servlet{
     private UserService userService = new UserServiceImpl();
 
     @Override
@@ -41,6 +41,11 @@ public class EditUserServlet extends HttpServlet {
         } catch (IOException e){
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
+    }
+
+    @Override
+    public String getName() {
+        return EditUserServlet.class.getName();
     }
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
