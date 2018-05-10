@@ -11,7 +11,6 @@ public class PropertiesParser {
     public PropertiesParser(String path) {
         this.path = path;
         String rootPath = getClass().getClassLoader().getResource("").getPath();
-        System.out.println(rootPath);
         String appConfigPath = rootPath + path;
         try {
             appProps.load(new FileInputStream(appConfigPath));

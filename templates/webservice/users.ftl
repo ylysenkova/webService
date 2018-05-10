@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Web Service</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <style>
         table {
             width: 100%;
@@ -28,7 +29,7 @@
     </p>
 </form>
 <button type="submit" onclick="edit()">Edit</button>
-<button type="submit">Remove</button>
+<button type="submit" onclick="remove()">Remove</button>
 </p>
 
 </form>
@@ -67,6 +68,19 @@
         if (rowId !== undefined) {
             window.location.href = "/user/edit?id=" + rowId;
         }
+    }
+
+    function remove() {
+        if (rowId !== undefined) {
+            var message = rowId;
+            $.post('/user/remove?id=' + rowId, {id: rowId, message: message}, function () {
+                window.location.reload(true)
+            });
+
+
+        }
+
+
     }
 </script>
 </body>
