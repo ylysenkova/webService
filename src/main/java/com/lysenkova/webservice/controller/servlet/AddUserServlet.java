@@ -17,16 +17,23 @@ public class AddUserServlet extends HttpServlet {
     private UserService userService = new UserServiceImpl();
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, Object> addPageVariables = createAddPageVariablesMap(request);
+    public void doGet(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            Map<String, Object> addPageVariables = createAddPageVariablesMap(request);
 
-        response.getWriter().println(PageGenerator.instance().getPage("add.ftl", addPageVariables));
-        response.setStatus(HttpServletResponse.SC_OK);
+            response.getWriter().println(PageGenerator.instance().getPage("add.ftl", addPageVariables));
+            response.setStatus(HttpServletResponse.SC_OK);
+        }catch(RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (IOException e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
 
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+    try{
         Map<String, Object> addPageVariables = createAddPageVariablesMap(request);
 
         response.setContentType("text/html;charset=utf-8");
@@ -35,6 +42,11 @@ public class AddUserServlet extends HttpServlet {
         List<User> users = userService.getAll();
         addPageVariables.put("users", users);
         response.getWriter().println(PageGenerator.instance().getPage("users.ftl", addPageVariables));
+    }catch(RuntimeException e) {
+        response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+    } catch (IOException e){
+        response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+    }
     }
 
     private static Map<String, Object> createAddPageVariablesMap(HttpServletRequest request) {

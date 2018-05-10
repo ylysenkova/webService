@@ -17,14 +17,20 @@ public class DeleteUserServlet extends HttpServlet {
     private UserService userService = new UserServiceImpl();
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response){
+        try{
         Map<String, Object> removeUserVariablesMap = createPageVariablesMap(request);
-        response.setContentType("text/html;charset=utf-8");
+//        response.setContentType("text/html;charset=utf-8");
 
         removeUser(request);
         List<User> users = userService.getAll();
         removeUserVariablesMap.put("users", users);
         response.getWriter().println(PageGenerator.instance().getPage("users.ftl", removeUserVariablesMap));
+        }catch(RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (IOException e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {

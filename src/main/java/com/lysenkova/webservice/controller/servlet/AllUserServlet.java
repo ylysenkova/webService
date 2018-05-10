@@ -21,13 +21,19 @@ public class AllUserServlet extends HttpServlet {
     private UserService userService = new UserServiceImpl();
 
     @Override
-    public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doGet(HttpServletRequest request, HttpServletResponse response)  {
+        try{
         Map<String, Object> userPageVariables = createPageVariablesMap(request);
         List<User> users = userService.getAll();
         userPageVariables.put("users", users);
 
         response.getWriter().println(PageGenerator.instance().getPage("users.ftl", userPageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
+        }catch(RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (IOException e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {

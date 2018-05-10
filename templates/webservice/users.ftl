@@ -28,10 +28,7 @@
     </p>
 </form>
 <p><button type="submit" onclick="edit()">Edit</button></p>
-<form action="/user/remove" method="post">
-    <input type="text" name="id" value="${users.id}" hidden>
 <p><button type="submit" onclick="remove()">Remove</button></p>
-</form>
 <table>
     <caption><strong>Users</strong></caption>
     <tr>

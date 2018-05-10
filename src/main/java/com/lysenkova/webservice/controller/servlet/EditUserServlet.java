@@ -28,13 +28,19 @@ public class EditUserServlet extends HttpServlet {
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public void doPost(HttpServletRequest request, HttpServletResponse response) {
+        try{
         Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
 
         editUser(request);
         List<User> users = userService.getAll();
         editUserVariablesMap.put("users", users);
         response.getWriter().println(PageGenerator.instance().getPage("users.ftl", editUserVariablesMap));
+        }catch(RuntimeException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        } catch (IOException e){
+            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
