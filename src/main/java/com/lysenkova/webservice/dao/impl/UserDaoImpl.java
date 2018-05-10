@@ -33,6 +33,7 @@ public class UserDaoImpl implements UserDao {
             }
         } catch (SQLException e) {
             LOGGER.debug("SQL error during getting all users. ", e);
+            throw new RuntimeException(e);
         }
 
         return users;
@@ -48,6 +49,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.debug("SQL error during add user. ", e);
+            throw new RuntimeException(e);
         }
 
     }
@@ -60,6 +62,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.debug("SQL error during remove user. ", e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -74,6 +77,7 @@ public class UserDaoImpl implements UserDao {
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             LOGGER.debug("SQL error during edit user. ", e);
+            throw new RuntimeException(e);
         }
     }
 
