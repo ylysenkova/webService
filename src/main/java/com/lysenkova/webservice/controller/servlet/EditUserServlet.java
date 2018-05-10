@@ -19,7 +19,6 @@ public class EditUserServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
-        editUserVariablesMap.put("message", "");
         long id = Long.parseLong(request.getParameterMap().get("id")[0]);
         User user = userService.getUserById(id);
         editUserVariablesMap.put("users", user);
@@ -31,14 +30,7 @@ public class EditUserServlet extends HttpServlet {
     @Override
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
-        String message = request.getParameter("message");
-        response.setContentType("text/html;charset=utf-8");
-        if (message == null || message.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-        editUserVariablesMap.put("message", message == null ? "" : message);
+
         editUser(request);
         List<User> users = userService.getAll();
         editUserVariablesMap.put("users", users);
@@ -47,10 +39,6 @@ public class EditUserServlet extends HttpServlet {
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> userPageVariables = new HashMap<>();
-        userPageVariables.put("method", request.getMethod());
-        userPageVariables.put("URL", request.getRequestURL().toString());
-//        pageVariables.put("pathInfo", request.getPathInfo());
-        userPageVariables.put("sessionId", request.getSession().getId());
         userPageVariables.put("parameters", request.getParameterMap().toString());
 
         return userPageVariables;

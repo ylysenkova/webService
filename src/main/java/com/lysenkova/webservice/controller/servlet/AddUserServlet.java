@@ -19,7 +19,6 @@ public class AddUserServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> addPageVariables = createAddPageVariablesMap(request);
-        addPageVariables.put("message", "");
 
         response.getWriter().println(PageGenerator.instance().getPage("add.ftl", addPageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
@@ -30,16 +29,7 @@ public class AddUserServlet extends HttpServlet {
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> addPageVariables = createAddPageVariablesMap(request);
 
-        String message = request.getParameter("message");
-
         response.setContentType("text/html;charset=utf-8");
-
-        if (message == null || message.isEmpty()) {
-            response.setStatus(HttpServletResponse.SC_FORBIDDEN);
-        } else {
-            response.setStatus(HttpServletResponse.SC_OK);
-        }
-        addPageVariables.put("message", message == null ? "" : message);
 
         addUser(request);
         List<User> users = userService.getAll();
@@ -51,8 +41,6 @@ public class AddUserServlet extends HttpServlet {
         Map<String, Object> addPageVariables = new HashMap<>();
         addPageVariables.put("method", request.getMethod());
         addPageVariables.put("URL", request.getRequestURL().toString());
-//        pageVariables.put("pathInfo", request.getPathInfo());
-        addPageVariables.put("sessionId", request.getSession().getId());
         addPageVariables.put("parameters", request.getParameterMap().toString());
         return addPageVariables;
     }

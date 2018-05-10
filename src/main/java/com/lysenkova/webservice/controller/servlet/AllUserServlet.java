@@ -23,7 +23,6 @@ public class AllUserServlet extends HttpServlet {
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         Map<String, Object> userPageVariables = createPageVariablesMap(request);
-        userPageVariables.put("message", "");
         List<User> users = userService.getAll();
         userPageVariables.put("users", users);
 
@@ -33,10 +32,6 @@ public class AllUserServlet extends HttpServlet {
 
     private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
         Map<String, Object> userPageVariables = new HashMap<>();
-        userPageVariables.put("method", request.getMethod());
-        userPageVariables.put("URL", request.getRequestURL().toString());
-//        pageVariables.put("pathInfo", request.getPathInfo());
-        userPageVariables.put("sessionId", request.getSession().getId());
         userPageVariables.put("parameters", request.getParameterMap().toString());
 
         return userPageVariables;
