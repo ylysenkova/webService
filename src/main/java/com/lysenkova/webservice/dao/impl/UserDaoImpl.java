@@ -1,6 +1,7 @@
 package com.lysenkova.webservice.dao.impl;
 
 import com.lysenkova.webservice.dao.UserDao;
+import com.lysenkova.webservice.dao.mapper.UserMapper;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.util.PropertiesParser;
 import org.slf4j.Logger;
@@ -18,24 +19,16 @@ public class UserDaoImpl implements UserDao {
     private final static Logger LOGGER = LoggerFactory.getLogger(UserDaoImpl.class);
 
     private PropertiesParser properties = new PropertiesParser("/db/database.properties");
-    private String dbUrl = properties.getStringProperty("database.url");
-    private String username = properties.getStringProperty("database.username");
-    private String password = properties.getStringProperty("database.password");
 
     @Override
     public List<User> getAll() {
-
         List<User> users = new ArrayList<>();
-        try (Connection connection = DriverManager.getConnection(dbUrl, username, password)) {
-
+        try (Connection connection = getConnection()) {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(GET_ALL_SQL);
+            UserMapper userMapper = new UserMapper();
             while (resultSet.next()) {
-                User user = new User();
-                user.setId(resultSet.getInt("id"));
-                user.setFirstName(resultSet.getString("first_name"));
-                user.setLastName(resultSet.getString("last_name"));
-                user.setSalary(resultSet.getDouble("salary"));
+                User user = userMapper.mapRow(resultSet);
                 users.add(user);
             }
         } catch (SQLException e) {
@@ -47,7 +40,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void add(User user) {
-        try (Connection connection = DriverManager.getConnection(dbUrl, username, password)){
+        try (Connection connection = getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(ADD_USER_SQL, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
@@ -61,7 +54,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void remove(User user)  {
-        try (Connection connection = DriverManager.getConnection(dbUrl, username, password)){
+        try (Connection connection = getConnection()){
             PreparedStatement preparedStatement = connection.prepareStatement(REMOVE_USER_SQL);
             preparedStatement.setLong(1, user.getId());
             preparedStatement.executeUpdate();
@@ -72,7 +65,7 @@ public class UserDaoImpl implements UserDao {
 
     @Override
     public void edit(User user) {
-        try (Connection connection = DriverManager.getConnection(dbUrl, username, password)) {
+        try (Connection connection = getConnection()) {
             PreparedStatement preparedStatement = connection.prepareStatement(EDIT_USER_SQL);
             preparedStatement.setString(1, user.getFirstName());
             preparedStatement.setString(2, user.getLastName());
@@ -82,6 +75,15 @@ public class UserDaoImpl implements UserDao {
         } catch (SQLException e) {
             LOGGER.debug("SQL error during edit user. ", e);
         }
+    }
+
+    private Connection getConnection() throws SQLException {
+         String dbUrl = properties.getStringProperty("database.url");
+         String username = properties.getStringProperty("database.username");
+         String password = properties.getStringProperty("database.password");
+
+         Connection connection = DriverManager.getConnection(dbUrl, username, password);
+         return connection;
     }
 
 }
