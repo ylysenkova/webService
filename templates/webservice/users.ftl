@@ -27,8 +27,14 @@
         <button type="submit">Add</button>
     </p>
 </form>
-<p><button type="submit" onclick="edit()">Edit</button></p>
-<p><button type="submit" onclick="remove()">Remove</button></p>
+
+<p>
+    <button type="submit" onclick="edit()">Edit</button>
+</p>
+<p>
+    <button type="submit" onclick="remove()">Remove</button>
+</p>
+
 <table>
     <caption><strong>Users</strong></caption>
     <tr>
