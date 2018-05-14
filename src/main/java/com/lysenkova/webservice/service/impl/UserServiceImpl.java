@@ -1,15 +1,15 @@
 package com.lysenkova.webservice.service.impl;
 
+import com.lysenkova.webservice.dao.Dao;
 import com.lysenkova.webservice.dao.UserDao;
-import com.lysenkova.webservice.dao.impl.UserDaoImpl;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;
+import com.lysenkova.webservice.web.servicelocator.ServiceLocator;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class UserServiceImpl implements UserService {
-    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao = ServiceLocator.getJDBCEntity("UserDaoImpl");
 
     @Override
     public List<User> getAll() {

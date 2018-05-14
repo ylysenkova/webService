@@ -2,10 +2,9 @@ package com.lysenkova.webservice.dao;
 
 import com.lysenkova.webservice.entity.User;
 
-import java.sql.SQLException;
 import java.util.List;
 
-public interface UserDao {
+public interface UserDao extends Dao {
     List<User> getAll ();
     void add(User user);
     void remove(User user);

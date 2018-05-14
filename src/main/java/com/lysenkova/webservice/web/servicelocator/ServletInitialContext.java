@@ -1,19 +1,16 @@
 package com.lysenkova.webservice.web.servicelocator;
 
-import com.lysenkova.webservice.web.servlet.AddUserServlet;
-import com.lysenkova.webservice.web.servlet.AllUserServlet;
-import com.lysenkova.webservice.web.servlet.DeleteUserServlet;
-import com.lysenkova.webservice.web.servlet.EditUserServlet;
+import com.lysenkova.webservice.web.servlet.*;
 
-import java.rmi.NoSuchObjectException;
-
-public class InitialContext {
+public class ServletInitialContext {
     private final static String ADD_USER_SERVLET = "AddUserServlet";
     private final static String ALL_USER_SERVLET = "AllUserServlet";
     private final static String EDIT_USER_SERVLET = "EditUserServlet";
     private final static String DELETE_USER_SERVLET = "DeleteUserServlet";
 
-    public Object lookup(String servletName) throws NoSuchObjectException{
+
+
+    public Servlet lookup(String servletName) {
         if (servletName.equalsIgnoreCase(ADD_USER_SERVLET)) {
             return new AddUserServlet();
         } else if (servletName.equalsIgnoreCase(ALL_USER_SERVLET)) {
@@ -23,6 +20,8 @@ public class InitialContext {
         } else if (servletName.equalsIgnoreCase(DELETE_USER_SERVLET)) {
             return new DeleteUserServlet();
         }
-        throw new NoSuchObjectException("Servlet not found.");
+        throw new RuntimeException("Servlet not found");
     }
+
+
 }

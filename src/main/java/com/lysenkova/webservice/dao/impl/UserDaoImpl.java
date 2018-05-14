@@ -1,5 +1,6 @@
 package com.lysenkova.webservice.dao.impl;
 
+import com.lysenkova.webservice.dao.Dao;
 import com.lysenkova.webservice.dao.UserDao;
 import com.lysenkova.webservice.dao.mapper.UserMapper;
 import com.lysenkova.webservice.entity.User;
@@ -7,6 +8,7 @@ import com.lysenkova.webservice.util.PropertiesParser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.lang.reflect.Type;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -90,4 +92,8 @@ public class UserDaoImpl implements UserDao {
          return connection;
     }
 
+    @Override
+    public String getName() {
+        return UserDaoImpl.class.getName();
+    }
 }
