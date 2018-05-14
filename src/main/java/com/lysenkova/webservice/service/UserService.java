@@ -15,4 +15,6 @@ public interface UserService {
     void edit(User user);
 
     void remove(User user);
+
+    String getName();
 }
