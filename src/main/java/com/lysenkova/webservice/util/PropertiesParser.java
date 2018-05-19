@@ -5,11 +5,9 @@ import java.io.IOException;
 import java.util.Properties;
 
 public class PropertiesParser {
-    private String path;
     private Properties appProps = new Properties();
 
     public PropertiesParser(String path) {
-        this.path = path;
         String rootPath = getClass().getClassLoader().getResource("").getPath();
         String appConfigPath = rootPath + path;
         try {

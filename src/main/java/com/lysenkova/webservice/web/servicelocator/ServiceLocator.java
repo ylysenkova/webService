@@ -1,46 +1,24 @@
 package com.lysenkova.webservice.web.servicelocator;
 
-import com.lysenkova.webservice.dao.Dao;
-import com.lysenkova.webservice.dao.UserDao;
-import com.lysenkova.webservice.service.UserService;
-import com.lysenkova.webservice.web.cache.LocatorCache;
-import com.lysenkova.webservice.web.servlet.Servlet;
+import java.util.HashMap;
+import java.util.Map;
 
-public class ServiceLocator<T> {
-    private static LocatorCache servletCache = new LocatorCache();
+public class ServiceLocator {
+    private final  Map<Class, Object> registry = new HashMap<>();
+    private final static ServiceLocator INSTANCE = new ServiceLocator();
 
     private ServiceLocator() {
     }
 
-    public static Servlet getServlet(String servletName) {
-        Servlet servlet = servletCache.getServlet(servletName);
-        if (servlet == null) {
-            ServletInitialContext context = new ServletInitialContext();
-            servlet = context.lookup(servletName);
-            servletCache.addServlet(servlet);
-        }
-        return servlet;
-
+    public static ServiceLocator getInstance() {
+        return INSTANCE;
     }
 
-    public static UserDao getJDBCEntity(String daoEntity) {
-        UserDao dao = servletCache.getJDBCEntity(daoEntity);
-        if (dao == null) {
-            DaoInitialContext context = new DaoInitialContext();
-            dao = context.lookup(daoEntity);
-            servletCache.addJDBCEntity(dao);
-        }
-        return dao;
+    public void register(Class clazz, Object service) {
+        registry.put(clazz, service);
     }
 
-    public static UserService getService(String service) {
-        UserService serviceCached = servletCache.getService(service);
-        if (serviceCached == null) {
-            ServiceInitialContext context = new ServiceInitialContext();
-            serviceCached = context.lookup(service);
-            servletCache.addService(serviceCached);
-        }
-        return serviceCached;
+    public <T> T getService(Class<T> clazz) {
+        return clazz.cast(registry.get(clazz));
     }
-
 }

@@ -1,9 +1,12 @@
 package com.lysenkova.webservice.web.servlet;
 
+import com.lysenkova.webservice.web.servicelocator.ServiceLocator;
 import com.lysenkova.webservice.web.templater.PageGenerator;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;
 import com.lysenkova.webservice.service.impl.UserServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -13,46 +16,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class EditUserServlet extends HttpServlet implements Servlet{
-    private UserService userService = new UserServiceImpl();
+public class EditUserServlet extends HttpServlet {
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
+    private UserService userService = ServiceLocator.getInstance().getService(UserService.class);
 
     @Override
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
-        long id = Long.parseLong(request.getParameterMap().get("id")[0]);
+        LOGGER.info("Get request in EditUserServlet");
+        Map<String, Object> userPageVariables = new HashMap<>();
+        long id = Long.parseLong(request.getPathInfo().replace("/", ""));
         User user = userService.getUserById(id);
-        editUserVariablesMap.put("users", user);
+        userPageVariables.put("user", user);
 
-        response.getWriter().println(PageGenerator.instance().getPage("edit.ftl", editUserVariablesMap));
+        response.getWriter().println(PageGenerator.instance().getPage("edit.ftl", userPageVariables));
         response.setStatus(HttpServletResponse.SC_OK);
     }
 
     @Override
-    public void doPost(HttpServletRequest request, HttpServletResponse response) {
-        try{
-        Map<String, Object> editUserVariablesMap = createPageVariablesMap(request);
+    public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        LOGGER.info("Post request in EditUserServlet.");
+        Map<String, Object> userPageVariables = new HashMap<>();
 
         editUser(request);
         List<User> users = userService.getAll();
-        editUserVariablesMap.put("users", users);
-        response.getWriter().println(PageGenerator.instance().getPage("users.ftl", editUserVariablesMap));
-        }catch(RuntimeException e) {
-            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-        } catch (IOException e){
-            response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-        }
-    }
-
-    @Override
-    public String getName() {
-        return EditUserServlet.class.getName();
-    }
-
-    private Map<String, Object> createPageVariablesMap(HttpServletRequest request) {
-        Map<String, Object> userPageVariables = new HashMap<>();
-        userPageVariables.put("parameters", request.getParameterMap().toString());
-
-        return userPageVariables;
+        userPageVariables.put("users", users);
+        response.sendRedirect("/users");
     }
 
     private User editUser(HttpServletRequest request) {

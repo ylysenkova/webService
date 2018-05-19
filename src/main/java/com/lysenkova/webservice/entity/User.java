@@ -53,20 +53,4 @@ public class User {
                 '}';
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-        User user = (User) o;
-        return getId() == user.getId() &&
-                Double.compare(user.getSalary(), getSalary()) == 0 &&
-                Objects.equals(getFirstName(), user.getFirstName()) &&
-                Objects.equals(getLastName(), user.getLastName());
-    }
-
-    @Override
-    public int hashCode() {
-
-        return Objects.hash(getId(), getFirstName(), getLastName(), getSalary());
-    }
 }

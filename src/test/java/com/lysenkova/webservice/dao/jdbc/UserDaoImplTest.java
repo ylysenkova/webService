@@ -1,4 +1,4 @@
-package com.lysenkova.webservice.dao.impl;
+package com.lysenkova.webservice.dao.jdbc;
 
 import com.lysenkova.webservice.dao.UserDao;
 import com.lysenkova.webservice.entity.User;
