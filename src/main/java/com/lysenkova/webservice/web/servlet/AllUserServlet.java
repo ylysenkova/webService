@@ -1,6 +1,6 @@
 package com.lysenkova.webservice.web.servlet;
 
-import com.lysenkova.webservice.web.servicelocator.ServiceLocator;
+import com.lysenkova.webservice.servicelocator.ServiceLocator;
 import com.lysenkova.webservice.web.templater.PageGenerator;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;

@@ -1,6 +1,6 @@
 package com.lysenkova.webservice.web.servlet;
 
-import com.lysenkova.webservice.web.servicelocator.ServiceLocator;
+import com.lysenkova.webservice.servicelocator.ServiceLocator;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;
 import org.slf4j.Logger;
@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Map;
 
 public class DeleteUserServlet extends HttpServlet {
     private final Logger LOGGER = LoggerFactory.getLogger(getClass());
@@ -24,8 +23,7 @@ public class DeleteUserServlet extends HttpServlet {
     }
 
     private void removeUser(HttpServletRequest request) {
-        Map<String, String[]> parameters = request.getParameterMap();
-        User user = userService.getUserById(Long.parseLong(parameters.get("id")[0]));
+        User user = userService.getById(Long.parseLong(request.getParameter("id")));
         userService.remove(user);
     }
 }

@@ -3,7 +3,7 @@ package com.lysenkova.webservice.service.impl;
 import com.lysenkova.webservice.dao.UserDao;
 import com.lysenkova.webservice.entity.User;
 import com.lysenkova.webservice.service.UserService;
-import com.lysenkova.webservice.web.servicelocator.ServiceLocator;
+import com.lysenkova.webservice.servicelocator.ServiceLocator;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserById(long id) {
+    public User getById(long id) {
         List<User> users = getAll();
         for (User user : users) {
             if(user.getId() == id){
@@ -41,8 +41,4 @@ public class UserServiceImpl implements UserService {
         userDao.remove(user);
     }
 
-    @Override
-    public String getName() {
-        return UserServiceImpl.class.getName();
-    }
 }

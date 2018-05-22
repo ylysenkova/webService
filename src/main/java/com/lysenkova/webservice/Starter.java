@@ -1,10 +1,10 @@
 package com.lysenkova.webservice;
 
 import com.lysenkova.webservice.dao.UserDao;
-import com.lysenkova.webservice.dao.jdbc.UserDaoImpl;
+import com.lysenkova.webservice.dao.jdbc.JdbcUserDao;
 import com.lysenkova.webservice.service.UserService;
 import com.lysenkova.webservice.service.impl.UserServiceImpl;
-import com.lysenkova.webservice.web.servicelocator.ServiceLocator;
+import com.lysenkova.webservice.servicelocator.ServiceLocator;
 import com.lysenkova.webservice.web.servlet.AddUserServlet;
 import com.lysenkova.webservice.web.servlet.AllUserServlet;
 import com.lysenkova.webservice.web.servlet.DeleteUserServlet;
@@ -14,8 +14,6 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
-import javax.servlet.Servlet;
-import javax.sql.DataSource;
 import java.util.Properties;
 
 public class Starter {
@@ -24,7 +22,7 @@ public class Starter {
         Properties properties = new Properties();
         properties.load(String.class.getResourceAsStream(propertiesUrl));
 
-        UserDaoImpl userDao = new UserDaoImpl();
+        JdbcUserDao userDao = new JdbcUserDao();
         MysqlDataSource dataSource = new MysqlDataSource();
         dataSource.setURL(properties.getProperty("database.url"));
         dataSource.setUser(properties.getProperty("database.username"));

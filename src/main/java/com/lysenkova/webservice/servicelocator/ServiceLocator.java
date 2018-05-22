@@ -1,4 +1,4 @@
-package com.lysenkova.webservice.web.servicelocator;
+package com.lysenkova.webservice.servicelocator;
 
 import java.util.HashMap;
 import java.util.Map;

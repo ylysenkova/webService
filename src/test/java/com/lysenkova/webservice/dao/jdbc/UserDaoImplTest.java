@@ -9,7 +9,7 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 public class UserDaoImplTest {
-    private UserDao userDao = new UserDaoImpl();
+    private UserDao userDao = new JdbcUserDao();
 
     @Test
     public void getAll() {
